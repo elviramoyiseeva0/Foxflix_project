@@ -1,0 +1,6 @@
+@Foxflix_HostAddress = http://localhost:5216
+
+GET {{Foxflix_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
