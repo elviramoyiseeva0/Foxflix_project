@@ -1,5 +1,7 @@
 using Foxflix.Data;
+using Foxflix.Interfaces;
 using Foxflix.Models;
+using Foxflix.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +18,9 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IGenre, GenreRepository>();
+builder.Services.AddScoped<IMovie, MovieRepository>();
 
 builder.Services.AddOpenApi();
 
