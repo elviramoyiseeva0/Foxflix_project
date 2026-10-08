@@ -10,6 +10,11 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options => options.AddPolicy("corspolicy", build =>
+{
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -19,7 +24,7 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 
 builder.Services.AddIdentity<User, IdentityRole>(opts =>
 {
-    opts.User.RequireUniqueEmail = true;    
+    opts.User.RequireUniqueEmail = true;
 })
 .AddEntityFrameworkStores<ApplicationContext>()
 .AddDefaultTokenProviders();
@@ -43,6 +48,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IGenre, GenreRepository>();
 builder.Services.AddScoped<IMovie, MovieRepository>();
+builder.Services.AddScoped<IWatchlist, WatchlistRepository>();
 
 builder.Services.AddOpenApi();
 
@@ -55,6 +61,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("corspolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
